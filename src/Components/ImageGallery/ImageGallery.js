@@ -1,15 +1,16 @@
 import React from "react";
 // import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
+import style from "./ImageGallery.module.css";
+import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 
-export default function ImageGallery({ articles }) {
+export default function ImageGallery({ articles, openModal }) {
   return (
-    <ul className="ImageGallery">
-      {articles.map(({ id, webformatURL, largeImageURL, tags }) => (
-        <li key={id}>
-          <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" />
-        </li>
-      ))}
-      {/* {<ImageGalleryItem /> */}
-    </ul>
+    <>
+      <ul className={style.ImageGallery} onClick={openModal}>
+        {articles.map((article) => (
+          <ImageGalleryItem key={article.id} article={article} />
+        ))}
+      </ul>
+    </>
   );
 }

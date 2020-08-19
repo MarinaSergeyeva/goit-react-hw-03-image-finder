@@ -15,6 +15,9 @@ export default class SearchBar extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
+    this.setState({
+      loading: true
+    });
     // console.log(this.props);
     this.props.handleSearchFormSubmit(this.state.inputValue);
     this.setState({
@@ -27,13 +30,13 @@ export default class SearchBar extends Component {
 
     return (
       <header className={style.Searchbar}>
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className={style.SearchForm_button}>
-            <span className="SearchForm-button-label">Search</span>
+        <form className={style.SearchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={style.SearchFormButton}>
+            <span className={style.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
-            className="SearchForm-input"
+            className={style.SearchFormInput}
             type="text"
             autoComplete="off"
             autoFocus
