@@ -15,7 +15,7 @@ export default class App extends Component {
     isShown: false,
     imgSrc: "",
     imgAlt: "",
-    isLoading: false,
+    isLoading: false
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -23,34 +23,35 @@ export default class App extends Component {
 
     if (prevState.searchQuery !== searchQuery) {
       API.getPictures(searchQuery, page)
-        .then((data) => {
-          this.setState((prevState) => ({
+        .then(data => {
+          this.setState(prevState => ({
             page: prevState.page + 1,
             articles: data,
-            isLoading: true,
+            isLoading: true
           }));
         })
-        .catch((error) => this.setState({ error }))
+        .catch(error => this.setState({ error }))
         .finally(() => {
           this.setState({
-            isLoading: false,
+            isLoading: false
           });
         });
     }
 
-    if (prevState.articles.length !== this.state.articles) {
+    if (prevState.articles.length !== this.state.articles.length) {
       // console.log("HEIGHT", document.documentElement.scrollHeight);
       window.scrollTo({
         top: document.documentElement.scrollHeight,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     }
   }
 
-  handleSearchFormSubmit = (query) => {
+  handleSearchFormSubmit = query => {
     this.setState({
       searchQuery: query,
-      articles: [],
+      page: 1,
+      articles: []
     });
   };
 
@@ -58,34 +59,34 @@ export default class App extends Component {
     const { searchQuery, page } = this.state;
 
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
 
     API.getPictures(searchQuery, page)
-      .then((articles) => {
-        this.setState((prevState) => ({
+      .then(articles => {
+        this.setState(prevState => ({
           page: prevState.page + 1,
-          articles: [...prevState.articles, ...articles],
+          articles: [...prevState.articles, ...articles]
         }));
       })
-      .catch((error) => this.setState({ error }))
+      .catch(error => this.setState({ error }))
       .finally(() => {
         this.setState({ isLoading: false });
       });
   };
 
-  openModal = (e) => {
+  openModal = e => {
     console.log("e.target", e.target);
     const target = e.target;
 
     if (target.nodeName === "IMG") {
       this.setState(
-        (prevState) => ({
-          isShown: !prevState.isShown,
+        prevState => ({
+          isShown: !prevState.isShown
         }),
         this.setState({
           imgSrc: target.src,
-          imgAlt: target.alt,
+          imgAlt: target.alt
         })
       );
     } else return;
@@ -93,7 +94,7 @@ export default class App extends Component {
 
   closeModal = () => {
     this.setState({
-      isShown: false,
+      isShown: false
     });
   };
 
@@ -107,9 +108,7 @@ export default class App extends Component {
         <ImageGallery openModal={this.openModal} articles={articles} />
         {articles.length > 0 && <Button loadMore={this.loadMore} />}
 
-        {isShown && (
-          <Modal imgSrc={imgSrc} imgAlt={imgAlt} closeModal={this.closeModal} />
-        )}
+        {isShown && <Modal imgSrc={imgSrc} imgAlt={imgAlt} closeModal={this.closeModal} />}
       </>
     );
   }
